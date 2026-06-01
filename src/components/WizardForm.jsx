@@ -231,6 +231,20 @@ const WizardForm = () => {
                     </select>
                   </div>
                 </div>
+
+                <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <details>
+                    <summary style={{ cursor: 'pointer', fontWeight: '600', color: 'var(--primary)', outline: 'none' }}>Ver exigencias de Medidas de Seguridad</summary>
+                    <div style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-main)', lineHeight: '1.6' }}>
+                      <p>Dependiendo del valor declarado y la aseguradora seleccionada, podrían exigirse las siguientes medidas para garantizar la cobertura de Robo:</p>
+                      <ul style={{ paddingLeft: '1.5rem', margin: '0.5rem 0' }}>
+                        <li><strong>Custodia Satelital:</strong> Rastreo GPS, botón de pánico, corte de combustible, sensores de apertura en furgón y desenganche. Requerida para valores intermedios.</li>
+                        <li><strong>Custodia Armada:</strong> Vehículo escolta con 2 (dos) personas armadas habilitadas y contacto visual permanente. Requerida para valores altos o zonas de riesgo (Ej: AMBA).</li>
+                      </ul>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>* Nuestro equipo evaluará internamente qué esquema aplica a su caso particular al cotizar.</p>
+                    </div>
+                  </details>
+                </div>
               </div>
             )}
           </div>
