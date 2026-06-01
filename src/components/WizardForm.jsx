@@ -13,6 +13,7 @@ const WizardForm = () => {
     iva: 'Responsable Inscripto',
     
     // Step 2 - Transport Logistics
+    fechaSalida: '',
     origen: '',
     tipoDestino: 'Único',
     destino: '',
@@ -22,6 +23,7 @@ const WizardForm = () => {
     tipoCarga: 'Pallets',
     pesoEstimado: '',
     mercaderia: '',
+    archivoAdjunto: null,
     
     // Step 3
     quiereSeguro: false,
@@ -30,10 +32,10 @@ const WizardForm = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
     }));
   };
 
@@ -48,7 +50,35 @@ const WizardForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Formulario enviado:', formData);
+    
+    // Simular envío o preparar un mailto (En un futuro conectar con EmailJS)
+    const asunto = `Nueva Solicitud de Cotización - ${formData.nombre}`;
+    const cuerpo = `
+    DATOS DEL CLIENTE:
+    - Nombre: ${formData.nombre} (${formData.iva})
+    - CUIT: ${formData.cuit}
+    - Email: ${formData.email}
+    - Teléfono: ${formData.telefono}
+
+    LOGÍSTICA:
+    - Ruta: ${formData.origen} a ${formData.destino} (${formData.tipoDestino})
+    - Fecha Estimada: ${formData.fechaSalida || 'No especificada'}
+    - Servicio: ${formData.tipoServicio}
+    - Vehículo sugerido: ${formData.tipoVehiculo}
+    - Carga: ${formData.tipoCarga} (${formData.pesoEstimado})
+    - Mercadería: ${formData.mercaderia}
+    - Eximición: ${formData.eximicion}
+
+    SEGURO:
+    - Solicitado: ${formData.quiereSeguro ? 'SÍ' : 'NO'}
+    ${formData.quiereSeguro ? `- Suma Max x Viaje: $${formData.sumaMaximaViaje} \n    - Cobertura: ${formData.coberturaBasica}` : ''}
+    `;
+
+    // Muestra alerta
     alert("Solicitud procesada con éxito. Nos pondremos en contacto a la brevedad.");
+    
+    // Opcional: abre el gestor de correo
+    // window.location.href = `mailto:cotizaciones@tuempresa.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
   };
 
   const renderStepIndicator = () => {
@@ -112,9 +142,16 @@ const WizardForm = () => {
 
             <div className="form-row">
               <div className="form-group">
+                <label>Fecha Estimada de Salida</label>
+                <input type="date" name="fechaSalida" value={formData.fechaSalida} onChange={handleChange} />
+              </div>
+              <div className="form-group">
                 <label>Localidad de Origen (Carga) *</label>
                 <input type="text" name="origen" placeholder="Ej: Rosario, Santa Fe" value={formData.origen} onChange={handleChange} required />
               </div>
+            </div>
+
+            <div className="form-row">
               <div className="form-group">
                 <label>Tipo de Destino</label>
                 <select name="tipoDestino" value={formData.tipoDestino} onChange={handleChange}>
@@ -122,13 +159,13 @@ const WizardForm = () => {
                   <option value="Multidestino">Multidestino</option>
                 </select>
               </div>
-            </div>
-
-            <div className="form-row">
               <div className="form-group">
                 <label>Localidad(es) de Destino</label>
                 <input type="text" name="destino" placeholder={formData.tipoDestino === 'Único' ? "Ej: Córdoba Capital" : "Ej: Córdoba, Mendoza, San Juan"} value={formData.destino} onChange={handleChange} />
               </div>
+            </div>
+
+            <div className="form-row">
               <div className="form-group">
                 <label>Tipo de Servicio</label>
                 <select name="tipoServicio" value={formData.tipoServicio} onChange={handleChange}>
@@ -137,9 +174,6 @@ const WizardForm = () => {
                   <option value="Aéreo">Aéreo</option>
                 </select>
               </div>
-            </div>
-
-            <div className="form-row">
               <div className="form-group">
                 <label>Tipo de Vehículo Sugerido</label>
                 <select name="tipoVehiculo" value={formData.tipoVehiculo} onChange={handleChange} disabled={formData.tipoServicio !== 'Terrestre'} style={{ opacity: formData.tipoServicio !== 'Terrestre' ? 0.5 : 1 }}>
@@ -148,13 +182,6 @@ const WizardForm = () => {
                   <option value="Furgón Cerrado">Furgón Cerrado</option>
                   <option value="Refrigerado / Térmico">Refrigerado / Térmico</option>
                   <option value="Plataforma / Carretón">Plataforma / Carretón</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Ámbito de Eximición del Transportista</label>
-                <select name="eximicion" value={formData.eximicion} onChange={handleChange}>
-                  <option value="Territorio de Argentina">Solo Territorio de Argentina</option>
-                  <option value="Mercosur y países limítrofes">Mercosur y países limítrofes</option>
                 </select>
               </div>
             </div>
@@ -177,6 +204,20 @@ const WizardForm = () => {
               </div>
             </div>
 
+            <div className="form-row">
+              <div className="form-group">
+                <label>Ámbito de Eximición del Transportista</label>
+                <select name="eximicion" value={formData.eximicion} onChange={handleChange}>
+                  <option value="Territorio de Argentina">Solo Territorio de Argentina</option>
+                  <option value="Mercosur y países limítrofes">Mercosur y países limítrofes</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Adjuntar Foto o Packing List (Opcional)</label>
+                <input type="file" name="archivoAdjunto" onChange={handleChange} accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png" />
+              </div>
+            </div>
+
             <div className="form-group">
               <label>Descripción de la Mercadería</label>
               <textarea name="mercaderia" rows="2" placeholder="¿Qué tipo de mercadería es? ¿Requiere frío, es frágil, es peligrosa?" value={formData.mercaderia} onChange={handleChange}></textarea>
@@ -189,13 +230,13 @@ const WizardForm = () => {
             <h2>Paso 3: Seguros (Opcional)</h2>
             <p style={{marginBottom: '1.5rem', color: 'var(--text-muted)'}}>¿Deseas asegurar la carga durante el trayecto?</p>
 
-            <div className="form-group checkbox-group" style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '12px', border: '1px solid var(--accent)' }}>
+            <div className={`checkbox-group ${formData.quiereSeguro ? 'highlighted' : ''}`} style={{ marginBottom: '0' }}>
               <input type="checkbox" id="quiereSeguro" name="quiereSeguro" checked={formData.quiereSeguro} onChange={handleChange} />
-              <label htmlFor="quiereSeguro" style={{margin:0, cursor:'pointer', fontSize: '1.1rem', color: 'var(--accent)', fontWeight: 'bold'}}>Sí, deseo cotizar el seguro para la mercadería</label>
+              <label htmlFor="quiereSeguro" style={{fontSize: '1.05rem', fontWeight: '600', color: formData.quiereSeguro ? 'var(--accent)' : 'inherit'}}>Sí, deseo cotizar el seguro para la mercadería</label>
             </div>
 
             {formData.quiereSeguro && (
-              <div className="dynamic-panel" style={{ marginTop: '0', animation: 'fadeIn 0.3s ease-out' }}>
+              <div className="dynamic-panel">
                 <div className="form-group">
                   <label>Suma Máxima Asegurada por Viaje ($) *</label>
                   <input type="number" name="sumaMaximaViaje" placeholder="Requerido para cotizar el seguro" value={formData.sumaMaximaViaje} onChange={handleChange} required={formData.quiereSeguro} />
@@ -219,16 +260,18 @@ const WizardForm = () => {
             <h2>Paso 4: Resumen de la Solicitud</h2>
             <p style={{marginBottom: '1.5rem', color: 'var(--text-muted)'}}>Por favor, revisa que los datos sean correctos antes de enviar.</p>
             
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
+            <div className="summary-box">
               <p><strong>Cliente:</strong> {formData.nombre || 'No especificado'} ({formData.iva})</p>
+              <p><strong>Fecha Salida:</strong> {formData.fechaSalida ? new Date(formData.fechaSalida).toLocaleDateString() : 'No especificada'}</p>
               <p><strong>Ruta:</strong> {formData.origen || 'A definir'} ➔ {formData.destino || 'A definir'} ({formData.tipoDestino})</p>
               <p><strong>Servicio:</strong> {formData.tipoServicio} {formData.tipoServicio === 'Terrestre' ? `- Vehículo: ${formData.tipoVehiculo}` : ''}</p>
               <p><strong>Carga:</strong> {formData.tipoCarga} - {formData.pesoEstimado || 'Peso no especificado'}</p>
-              <p><strong>Eximición Transportista:</strong> {formData.eximicion}</p>
+              <p><strong>Eximición:</strong> {formData.eximicion}</p>
+              {formData.archivoAdjunto && <p><strong>Archivo:</strong> {formData.archivoAdjunto.name}</p>}
               
-              <hr style={{ borderColor: 'var(--glass-border)', margin: '1rem 0' }} />
+              <hr style={{ borderColor: 'var(--border-color)', margin: '1.5rem 0' }} />
               
-              <p><strong>Seguro Opcional:</strong> <span style={{color: formData.quiereSeguro ? 'var(--accent)' : 'var(--text-muted)'}}>{formData.quiereSeguro ? 'Sí, solicitado' : 'No solicitado'}</span></p>
+              <p><strong>Seguro Opcional:</strong> <span style={{color: formData.quiereSeguro ? 'var(--accent)' : 'var(--text-muted)', fontWeight: '600'}}>{formData.quiereSeguro ? 'Sí, solicitado' : 'No solicitado'}</span></p>
               
               {formData.quiereSeguro && (
                 <>
