@@ -14,11 +14,13 @@ const WizardForm = () => {
     
     // Step 2 - Transport Logistics
     origen: '',
+    tipoDestino: 'Único',
     destino: '',
+    tipoServicio: 'Terrestre',
+    tipoVehiculo: 'No estoy seguro / A definir',
+    eximicion: 'Territorio de Argentina',
     tipoCarga: 'Pallets',
     pesoEstimado: '',
-    tipoServicio: 'Terrestre',
-    eximicion: 'Territorio de Argentina',
     mercaderia: '',
     
     // Step 3
@@ -114,18 +116,39 @@ const WizardForm = () => {
                 <input type="text" name="origen" placeholder="Ej: Rosario, Santa Fe" value={formData.origen} onChange={handleChange} required />
               </div>
               <div className="form-group">
-                <label>Localidad de Destino o Multidestino *</label>
-                <input type="text" name="destino" placeholder="Ej: Córdoba Capital o Varios destinos" value={formData.destino} onChange={handleChange} required />
+                <label>Tipo de Destino</label>
+                <select name="tipoDestino" value={formData.tipoDestino} onChange={handleChange}>
+                  <option value="Único">Destino Único</option>
+                  <option value="Multidestino">Multidestino</option>
+                </select>
               </div>
             </div>
 
             <div className="form-row">
+              <div className="form-group">
+                <label>Localidad(es) de Destino *</label>
+                <input type="text" name="destino" placeholder={formData.tipoDestino === 'Único' ? "Ej: Córdoba Capital" : "Ej: Córdoba, Mendoza, San Juan"} value={formData.destino} onChange={handleChange} required />
+              </div>
               <div className="form-group">
                 <label>Tipo de Servicio</label>
                 <select name="tipoServicio" value={formData.tipoServicio} onChange={handleChange}>
                   <option value="Terrestre">Terrestre</option>
                   <option value="Marítimo">Marítimo</option>
                   <option value="Aéreo">Aéreo</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Tipo de Vehículo Sugerido</label>
+                <select name="tipoVehiculo" value={formData.tipoVehiculo} onChange={handleChange} disabled={formData.tipoServicio !== 'Terrestre'} style={{ opacity: formData.tipoServicio !== 'Terrestre' ? 0.5 : 1 }}>
+                  <option value="No estoy seguro / A definir">No estoy seguro / A definir</option>
+                  <option value="Semi-remolque (Sider/Barandas)">Semi-remolque (Sider/Barandas)</option>
+                  <option value="Chasis / Balancín">Chasis / Balancín</option>
+                  <option value="Furgón Cerrado">Furgón Cerrado</option>
+                  <option value="Refrigerado / Térmico">Refrigerado / Térmico</option>
+                  <option value="Plataforma / Carretón">Plataforma / Carretón</option>
                 </select>
               </div>
               <div className="form-group">
@@ -199,8 +222,8 @@ const WizardForm = () => {
             
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
               <p><strong>Cliente:</strong> {formData.nombre || 'No especificado'} ({formData.iva})</p>
-              <p><strong>Ruta:</strong> {formData.origen || 'A definir'} ➔ {formData.destino || 'A definir'}</p>
-              <p><strong>Servicio:</strong> {formData.tipoServicio}</p>
+              <p><strong>Ruta:</strong> {formData.origen || 'A definir'} ➔ {formData.destino || 'A definir'} ({formData.tipoDestino})</p>
+              <p><strong>Servicio:</strong> {formData.tipoServicio} {formData.tipoServicio === 'Terrestre' ? `- Vehículo: ${formData.tipoVehiculo}` : ''}</p>
               <p><strong>Carga:</strong> {formData.tipoCarga} - {formData.pesoEstimado || 'Peso no especificado'}</p>
               <p><strong>Eximición Transportista:</strong> {formData.eximicion}</p>
               
