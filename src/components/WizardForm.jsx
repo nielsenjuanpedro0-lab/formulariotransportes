@@ -30,6 +30,7 @@ const WizardForm = () => {
     sumaMaximaViaje: '',
     coberturaBasica: 'BASICA',
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -74,8 +75,8 @@ const WizardForm = () => {
     ${formData.quiereSeguro ? `- Suma Max x Viaje: $${formData.sumaMaximaViaje} \n    - Cobertura: ${formData.coberturaBasica}` : ''}
     `;
 
-    // Muestra alerta
-    alert("Solicitud procesada con éxito. Nos pondremos en contacto a la brevedad.");
+    // Muestra modal interno en lugar de alerta nativa
+    setIsSubmitted(true);
     
     // Opcional: abre el gestor de correo
     // window.location.href = `mailto:cotizaciones@tuempresa.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
@@ -213,7 +214,7 @@ const WizardForm = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Adjuntar Foto o Packing List (Opcional)</label>
+                <label>Adjuntar Remito, Detalle de Carga o Fotos (Opcional)</label>
                 <input type="file" name="archivoAdjunto" onChange={handleChange} accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png" />
               </div>
             </div>
@@ -290,6 +291,21 @@ const WizardForm = () => {
         return null;
     }
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="glass-panel" style={{ textAlign: 'center', padding: '4rem 2rem', animation: 'fadeInDown 0.5s ease-out' }}>
+        <div style={{ fontSize: '4rem', color: 'var(--success)', marginBottom: '1rem' }}>✓</div>
+        <h2 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '2rem' }}>¡Solicitud Enviada!</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem', fontSize: '1.1rem', lineHeight: '1.6' }}>
+          Hemos recibido los datos correctamente. Nuestro equipo logístico analizará la información y se pondrá en contacto a la brevedad con la cotización.
+        </p>
+        <button type="button" className="btn-primary" onClick={() => window.location.reload()}>
+          Realizar otra cotización
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="glass-panel">
