@@ -17,7 +17,7 @@ const WizardForm = () => {
     tipoDestino: 'Único',
     destino: '',
     tipoServicio: 'Terrestre',
-    tipoVehiculo: 'No estoy seguro / A definir',
+    tipoVehiculo: 'Semi-remolque (Sider/Barandas)',
     eximicion: 'Territorio de Argentina',
     tipoCarga: 'Pallets',
     pesoEstimado: '',
@@ -143,7 +143,6 @@ const WizardForm = () => {
               <div className="form-group">
                 <label>Tipo de Vehículo Sugerido</label>
                 <select name="tipoVehiculo" value={formData.tipoVehiculo} onChange={handleChange} disabled={formData.tipoServicio !== 'Terrestre'} style={{ opacity: formData.tipoServicio !== 'Terrestre' ? 0.5 : 1 }}>
-                  <option value="No estoy seguro / A definir">No estoy seguro / A definir</option>
                   <option value="Semi-remolque (Sider/Barandas)">Semi-remolque (Sider/Barandas)</option>
                   <option value="Chasis / Balancín">Chasis / Balancín</option>
                   <option value="Furgón Cerrado">Furgón Cerrado</option>
