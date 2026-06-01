@@ -1,16 +1,4 @@
 import React, { useState } from 'react';
-import { 
-  User, 
-  Truck, 
-  ShieldCheck, 
-  ClipboardCheck, 
-  CheckCircle,
-  MapPin,
-  Calendar,
-  Package,
-  FileText,
-  AlertCircle
-} from 'lucide-react';
 
 const WizardForm = () => {
   const [step, setStep] = useState(1);
@@ -67,22 +55,15 @@ const WizardForm = () => {
   };
 
   const renderStepIndicator = () => {
-    const steps = [
-      { num: 1, icon: <User /> },
-      { num: 2, icon: <Truck /> },
-      { num: 3, icon: <ShieldCheck /> },
-      { num: 4, icon: <ClipboardCheck /> }
-    ];
-
     return (
       <div className="wizard-steps">
-        {steps.map((s) => (
+        {[1, 2, 3, 4].map((num) => (
           <div 
-            key={s.num} 
-            className={`step-indicator ${step === s.num ? 'active' : ''} ${step > s.num ? 'completed' : ''}`}
-            title={`Paso ${s.num}`}
+            key={num} 
+            className={`step-indicator ${step === num ? 'active' : ''} ${step > num ? 'completed' : ''}`}
+            title={`Paso ${num}`}
           >
-            {step > s.num ? <CheckCircle /> : s.icon}
+            {step > num ? '✓' : num}
           </div>
         ))}
       </div>
@@ -94,7 +75,7 @@ const WizardForm = () => {
       case 1:
         return (
           <div className="form-section">
-            <h2><User size={28} /> Datos del Cliente</h2>
+            <h2>Datos del Cliente</h2>
             <p style={{marginBottom: '2rem', color: 'var(--text-muted)'}}>Información corporativa del solicitante del servicio.</p>
             
             <div className="form-group">
@@ -133,7 +114,7 @@ const WizardForm = () => {
       case 2:
         return (
           <div className="form-section">
-            <h2><Truck size={28} /> Datos de la Carga y Logística</h2>
+            <h2>Datos de la Carga y Logística</h2>
             <p style={{marginBottom: '2rem', color: 'var(--text-muted)'}}>Detalles operativos necesarios para cotizar el flete de la mercadería.</p>
 
             <div className="form-row">
@@ -225,7 +206,7 @@ const WizardForm = () => {
       case 3:
         return (
           <div className="form-section">
-            <h2><ShieldCheck size={28} /> Seguros de Carga (Opcional)</h2>
+            <h2>Seguros de Carga (Opcional)</h2>
             <p style={{marginBottom: '2rem', color: 'var(--text-muted)'}}>¿Deseas asegurar la mercadería durante el trayecto para mayor tranquilidad?</p>
 
             <div className={`checkbox-group ${formData.quiereSeguro ? 'highlighted' : ''}`} style={{ marginBottom: '0' }}>
@@ -257,13 +238,13 @@ const WizardForm = () => {
       case 4:
         return (
           <div className="form-section">
-            <h2><ClipboardCheck size={28} /> Resumen de la Solicitud</h2>
+            <h2>Resumen de la Solicitud</h2>
             <p style={{marginBottom: '1rem', color: 'var(--text-muted)'}}>Por favor, revisa que los datos sean correctos antes de confirmar el envío.</p>
             
             <div className="summary-grid">
               
               <div className="summary-card">
-                <h3><User size={20}/> Cliente</h3>
+                <h3>Cliente</h3>
                 <div className="summary-item">
                   <span className="label">Razón Social</span>
                   <span className="value">{formData.nombre || 'No especificado'}</span>
@@ -279,7 +260,7 @@ const WizardForm = () => {
               </div>
 
               <div className="summary-card">
-                <h3><MapPin size={20}/> Ruta y Logística</h3>
+                <h3>Ruta y Logística</h3>
                 <div className="summary-item">
                   <span className="label">Origen ➔ Destino</span>
                   <span className="value">{formData.origen || 'A definir'} ➔ {formData.destino || 'A definir'} ({formData.tipoDestino})</span>
@@ -295,7 +276,7 @@ const WizardForm = () => {
               </div>
 
               <div className="summary-card">
-                <h3><Package size={20}/> Carga</h3>
+                <h3>Carga</h3>
                 <div className="summary-item">
                   <span className="label">Formato y Peso</span>
                   <span className="value">{formData.tipoCarga} - {formData.pesoEstimado || 'Sin especificar'}</span>
@@ -313,7 +294,7 @@ const WizardForm = () => {
               </div>
 
               <div className="summary-card" style={{ borderColor: formData.quiereSeguro ? 'var(--accent)' : 'var(--border-color)', background: formData.quiereSeguro ? '#eff6ff' : '#f8fafc' }}>
-                <h3 style={{ color: formData.quiereSeguro ? 'var(--accent)' : 'var(--primary)' }}><ShieldCheck size={20}/> Seguro Opcional</h3>
+                <h3 style={{ color: formData.quiereSeguro ? 'var(--accent)' : 'var(--primary)' }}>Seguro Opcional</h3>
                 <div className="summary-item">
                   <span className="label">Estado</span>
                   <span className="value" style={{ fontWeight: 700, color: formData.quiereSeguro ? 'var(--accent)' : 'var(--text-muted)' }}>
@@ -337,8 +318,7 @@ const WizardForm = () => {
             </div>
             
             <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              <AlertCircle size={16} />
-              <p>La presente solicitud está sujeta a disponibilidad de flota, análisis de rutas y aprobación comercial.</p>
+              <p>IMPORTANTE: La presente solicitud está sujeta a disponibilidad de flota, análisis de rutas y aprobación comercial.</p>
             </div>
           </div>
         );
@@ -350,7 +330,7 @@ const WizardForm = () => {
   if (isSubmitted) {
     return (
       <div className="glass-panel" style={{ textAlign: 'center', padding: '5rem 2rem', animation: 'fadeInDown 0.5s ease-out' }}>
-        <CheckCircle size={80} color="var(--success)" style={{ marginBottom: '1.5rem' }} />
+        <div style={{ fontSize: '4rem', color: 'var(--success)', marginBottom: '1.5rem' }}>✓</div>
         <h2 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '2rem' }}>¡Cotización Solicitada!</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem', fontSize: '1.1rem', lineHeight: '1.6', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
           Hemos recibido los datos de la carga correctamente. Nuestro equipo logístico analizará la viabilidad y se pondrá en contacto a la brevedad con la propuesta económica.
@@ -365,7 +345,7 @@ const WizardForm = () => {
   return (
     <div className="glass-panel">
       <div className="header">
-        <h1><Truck size={36} color="var(--accent)" /> Solicitud de Cotización</h1>
+        <h1>Solicitud de Cotización</h1>
         <p>Plataforma Integrada de Servicios Logísticos</p>
       </div>
 
@@ -385,7 +365,7 @@ const WizardForm = () => {
             </button>
           ) : (
             <button type="submit" className="btn-primary" style={{ background: 'var(--success)'}}>
-              <CheckCircle size={20} /> Confirmar y Enviar
+              Confirmar y Enviar
             </button>
           )}
         </div>
