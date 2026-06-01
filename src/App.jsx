@@ -11,7 +11,7 @@ function App() {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">
-            Logistics <span>Quote Pro</span>
+            Cotizador
           </div>
           <div className="nav-links">
             <button 
