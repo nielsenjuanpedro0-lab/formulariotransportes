@@ -34,10 +34,23 @@ const WizardForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
-    }));
+    
+    setFormData(prev => {
+      const updatedValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
+      const newData = { ...prev, [name]: updatedValue };
+      
+      // Auto-selección de eximición para Multidestino o Chile
+      if (name === 'tipoDestino' || name === 'destino') {
+        const isMultidestino = name === 'tipoDestino' ? updatedValue === 'Multidestino' : newData.tipoDestino === 'Multidestino';
+        const isChile = name === 'destino' ? updatedValue.toLowerCase().includes('chile') : newData.destino.toLowerCase().includes('chile');
+        
+        if (isMultidestino || isChile) {
+          newData.eximicion = 'Mercosur y países limítrofes';
+        }
+      }
+      
+      return newData;
+    });
   };
 
   const nextStep = () => {
