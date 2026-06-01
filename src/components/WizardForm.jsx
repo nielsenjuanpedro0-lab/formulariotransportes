@@ -17,16 +17,14 @@ const WizardForm = () => {
     destino: '',
     tipoCarga: 'Pallets',
     pesoEstimado: '',
-    tipoVehiculo: 'No estoy seguro / A definir',
+    tipoServicio: 'Terrestre',
+    eximicion: 'Territorio de Argentina',
     mercaderia: '',
-    valorDeclarado: '',
     
     // Step 3
     quiereSeguro: false,
+    sumaMaximaViaje: '',
     coberturaBasica: 'BASICA',
-    solicitaAccidentesPersonales: false,
-    nominaPersonal: '',
-    solicitaCaucion: false,
   });
 
   const handleChange = (e) => {
@@ -116,8 +114,26 @@ const WizardForm = () => {
                 <input type="text" name="origen" placeholder="Ej: Rosario, Santa Fe" value={formData.origen} onChange={handleChange} required />
               </div>
               <div className="form-group">
-                <label>Localidad de Destino (Descarga) *</label>
-                <input type="text" name="destino" placeholder="Ej: Córdoba Capital" value={formData.destino} onChange={handleChange} required />
+                <label>Localidad de Destino o Multidestino *</label>
+                <input type="text" name="destino" placeholder="Ej: Córdoba Capital o Varios destinos" value={formData.destino} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Tipo de Servicio</label>
+                <select name="tipoServicio" value={formData.tipoServicio} onChange={handleChange}>
+                  <option value="Terrestre">Terrestre</option>
+                  <option value="Marítimo">Marítimo</option>
+                  <option value="Aéreo">Aéreo</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Ámbito de Eximición del Transportista</label>
+                <select name="eximicion" value={formData.eximicion} onChange={handleChange}>
+                  <option value="Territorio de Argentina">Solo Territorio de Argentina</option>
+                  <option value="Mercosur y países limítrofes">Mercosur y países limítrofes</option>
+                </select>
               </div>
             </div>
 
@@ -143,24 +159,12 @@ const WizardForm = () => {
               <label>Descripción de la Mercadería</label>
               <textarea name="mercaderia" rows="2" placeholder="¿Qué tipo de mercadería es? ¿Requiere frío, es frágil, es peligrosa?" value={formData.mercaderia} onChange={handleChange}></textarea>
             </div>
-
-            <div className="form-group">
-              <label>Tipo de Vehículo Sugerido</label>
-              <select name="tipoVehiculo" value={formData.tipoVehiculo} onChange={handleChange}>
-                <option value="No estoy seguro / A definir">No estoy seguro / A definir</option>
-                <option value="Semi-remolque (Sider/Barandas)">Semi-remolque (Sider/Barandas)</option>
-                <option value="Chasis / Balancín">Chasis / Balancín</option>
-                <option value="Furgón Cerrado">Furgón Cerrado</option>
-                <option value="Refrigerado / Térmico">Refrigerado / Térmico</option>
-                <option value="Plataforma / Carretón">Plataforma / Carretón</option>
-              </select>
-            </div>
           </div>
         );
       case 3:
         return (
           <div className="form-section">
-            <h2>Paso 3: Seguros y Adicionales (Opcional)</h2>
+            <h2>Paso 3: Seguros (Opcional)</h2>
             <p style={{marginBottom: '1.5rem', color: 'var(--text-muted)'}}>¿Deseas asegurar la carga durante el trayecto?</p>
 
             <div className="form-group checkbox-group" style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '12px', border: '1px solid var(--accent)' }}>
@@ -171,8 +175,8 @@ const WizardForm = () => {
             {formData.quiereSeguro && (
               <div className="dynamic-panel" style={{ marginTop: '0', animation: 'fadeIn 0.3s ease-out' }}>
                 <div className="form-group">
-                  <label>Valor Declarado de la Carga ($) *</label>
-                  <input type="number" name="valorDeclarado" placeholder="Requerido para cotizar el seguro" value={formData.valorDeclarado} onChange={handleChange} required={formData.quiereSeguro} />
+                  <label>Suma Máxima Asegurada por Viaje ($) *</label>
+                  <input type="number" name="sumaMaximaViaje" placeholder="Requerido para cotizar el seguro" value={formData.sumaMaximaViaje} onChange={handleChange} required={formData.quiereSeguro} />
                 </div>
                 
                 <div className="form-group">
@@ -182,28 +186,6 @@ const WizardForm = () => {
                     <option value="BASICA + ROBO">Básica + Robo</option>
                     <option value="TODO RIESGO">Todo Riesgo</option>
                   </select>
-                </div>
-
-                <hr style={{ borderColor: 'var(--glass-border)', margin: '2rem 0' }} />
-
-                <div className="form-group checkbox-group">
-                  <input type="checkbox" id="acc" name="solicitaAccidentesPersonales" checked={formData.solicitaAccidentesPersonales} onChange={handleChange} />
-                  <label htmlFor="acc" style={{margin:0, cursor:'pointer'}}>Añadir Seguro de Accidentes Personales (Conductores)</label>
-                </div>
-
-                {formData.solicitaAccidentesPersonales && (
-                  <div className="dynamic-panel" style={{ background: 'rgba(0,0,0,0.2)' }}>
-                    <h3>Detalle de Accidentes Personales</h3>
-                    <div className="form-group">
-                      <label>Nómina de Personal Asegurado (Cantidad / Detalle)</label>
-                      <textarea name="nominaPersonal" rows="2" placeholder="Especificar cantidad de choferes o adjuntar detalle" value={formData.nominaPersonal} onChange={handleChange}></textarea>
-                    </div>
-                  </div>
-                )}
-
-                <div className="form-group checkbox-group" style={{marginTop: '1.5rem'}}>
-                  <input type="checkbox" id="cau" name="solicitaCaucion" checked={formData.solicitaCaucion} onChange={handleChange} />
-                  <label htmlFor="cau" style={{margin:0, cursor:'pointer'}}>Añadir Seguro de Caución</label>
                 </div>
               </div>
             )}
@@ -218,9 +200,9 @@ const WizardForm = () => {
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
               <p><strong>Cliente:</strong> {formData.nombre || 'No especificado'} ({formData.iva})</p>
               <p><strong>Ruta:</strong> {formData.origen || 'A definir'} ➔ {formData.destino || 'A definir'}</p>
+              <p><strong>Servicio:</strong> {formData.tipoServicio}</p>
               <p><strong>Carga:</strong> {formData.tipoCarga} - {formData.pesoEstimado || 'Peso no especificado'}</p>
-              <p><strong>Vehículo Sugerido:</strong> {formData.tipoVehiculo}</p>
-              <p><strong>Valor Declarado:</strong> {formData.valorDeclarado ? `$${formData.valorDeclarado}` : 'No declarado'}</p>
+              <p><strong>Eximición Transportista:</strong> {formData.eximicion}</p>
               
               <hr style={{ borderColor: 'var(--glass-border)', margin: '1rem 0' }} />
               
@@ -228,12 +210,8 @@ const WizardForm = () => {
               
               {formData.quiereSeguro && (
                 <>
+                  <p><strong>Suma Max por Viaje:</strong> ${formData.sumaMaximaViaje}</p>
                   <p><strong>Cobertura Base:</strong> {formData.coberturaBasica}</p>
-                  <p><strong>Adicionales:</strong> 
-                    {formData.solicitaAccidentesPersonales ? ' Accidentes Personales' : ''} 
-                    {formData.solicitaCaucion ? ' | Caución' : ''}
-                    {!formData.solicitaAccidentesPersonales && !formData.solicitaCaucion ? ' Ninguno' : ''}
-                  </p>
                 </>
               )}
             </div>
