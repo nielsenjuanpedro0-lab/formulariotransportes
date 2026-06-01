@@ -23,15 +23,87 @@
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-app);
-  /* Thematic logistics grid pattern */
   background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
   background-size: 20px 20px;
   color: var(--text-main);
   min-height: 100vh;
+}
+
+/* Navbar Premium */
+.navbar {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.nav-logo span {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.nav-tab:hover {
+  color: var(--primary);
+  transform: none;
+  background: transparent;
+}
+
+.nav-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* App Container */
+.app-layout {
+  padding: 3rem 1.5rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 3rem 1rem;
+  align-items: flex-start;
+  min-height: calc(100vh - 70px);
 }
 
 .app-container {
@@ -39,32 +111,29 @@ body {
   max-width: 900px;
 }
 
+/* Panels */
 .glass-panel {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 3rem;
+  padding: 3.5rem;
   box-shadow: var(--shadow);
   animation: fadeIn 0.4s ease-out;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
   border-bottom: 2px dashed var(--border-color);
 }
 
 .header h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
 }
 
 .header p {
@@ -72,10 +141,11 @@ body {
   font-size: 1.1rem;
 }
 
+/* Wizard Steps (No Icons) */
 .wizard-steps {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
   position: relative;
   padding: 0 1rem;
 }
@@ -96,8 +166,8 @@ body {
 .step-indicator {
   position: relative;
   z-index: 1;
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: #f1f5f9;
   border: 4px solid var(--card-bg);
@@ -105,12 +175,9 @@ body {
   justify-content: center;
   align-items: center;
   color: #94a3b8;
+  font-weight: 700;
+  font-size: 1.2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.step-indicator svg {
-  width: 24px;
-  height: 24px;
 }
 
 .step-indicator.active {
@@ -125,26 +192,24 @@ body {
   color: white;
 }
 
+/* Form Styles - Much More "Aire" */
 .form-section {
   animation: fadeIn 0.3s ease-out;
 }
 
 .form-section h2 {
   color: var(--primary);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.2rem; /* MAS AIRE */
 }
 
 .form-row {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem; /* MAS AIRE */
 }
 
 .form-row .form-group {
@@ -153,8 +218,8 @@ body {
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  margin-bottom: 0.6rem; /* MAS AIRE */
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--primary);
   text-transform: uppercase;
@@ -169,13 +234,13 @@ input[type="date"],
 select, 
 textarea {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 1rem 1.2rem; /* MAS AIRE */
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background: #f8fafc;
   color: var(--text-main);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.05rem;
   transition: all 0.2s ease;
 }
 
@@ -188,7 +253,7 @@ input:focus, select:focus, textarea:focus {
 
 input[type="file"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem;
   border: 2px dashed #cbd5e1;
   border-radius: 8px;
   background: #f8fafc;
@@ -206,7 +271,7 @@ input[type="file"]:hover {
   align-items: center;
   gap: 1rem;
   cursor: pointer;
-  padding: 1.25rem;
+  padding: 1.5rem;
   background: #f8fafc;
   border: 2px solid var(--border-color);
   border-radius: 12px;
@@ -219,8 +284,8 @@ input[type="file"]:hover {
 }
 
 .checkbox-group input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   accent-color: var(--accent);
   cursor: pointer;
 }
@@ -233,9 +298,9 @@ input[type="file"]:hover {
 }
 
 .dynamic-panel {
-  margin-top: -1rem;
-  margin-bottom: 2rem;
-  padding: 2rem 1.5rem 1.5rem;
+  margin-top: -1.25rem;
+  margin-bottom: 2.5rem;
+  padding: 2.5rem 2rem 2rem;
   background: #ffffff;
   border: 2px solid var(--border-color);
   border-top: none;
@@ -243,45 +308,46 @@ input[type="file"]:hover {
   animation: fadeInDown 0.3s ease-out;
 }
 
+/* Summary Grid */
 .summary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .summary-card {
   background: #f8fafc;
-  padding: 1.5rem;
+  padding: 1.75rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
 
 .summary-card h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
 }
 
 .summary-item {
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
 }
 
 .summary-item span.label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 
 .summary-item span.value {
@@ -289,25 +355,23 @@ input[type="file"]:hover {
   font-weight: 500;
 }
 
+/* Actions */
 .actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin-top: 4rem;
+  padding-top: 2.5rem;
   border-top: 2px solid var(--border-color);
 }
 
 button {
-  padding: 0.875rem 2rem;
+  padding: 1rem 2.5rem;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 button.btn-primary {
@@ -337,6 +401,63 @@ button:disabled {
   transform: none;
 }
 
+/* Info Section Content Styles */
+.info-section {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-card h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.info-card h3 {
+  color: var(--accent);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+}
+
+.info-card ul {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.info-card li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.info-card li::before {
+  content: "•";
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 0;
+  top: -4px;
+}
+
+.info-card p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -350,6 +471,9 @@ button:disabled {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Simplification for mobile */
+  }
   .form-row {
     flex-direction: column;
     gap: 0;
