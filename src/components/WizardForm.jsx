@@ -126,8 +126,8 @@ const WizardForm = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Localidad(es) de Destino *</label>
-                <input type="text" name="destino" placeholder={formData.tipoDestino === 'Único' ? "Ej: Córdoba Capital" : "Ej: Córdoba, Mendoza, San Juan"} value={formData.destino} onChange={handleChange} required />
+                <label>Localidad(es) de Destino</label>
+                <input type="text" name="destino" placeholder={formData.tipoDestino === 'Único' ? "Ej: Córdoba Capital" : "Ej: Córdoba, Mendoza, San Juan"} value={formData.destino} onChange={handleChange} />
               </div>
               <div className="form-group">
                 <label>Tipo de Servicio</label>
